@@ -38,7 +38,9 @@ while status:
     klavesa = pygame.key.get_pressed()
     hrac.pohni_se(klavesa, zem_mask)
     hrac2.pohni_se(klavesa,zem_mask)
-
+    #pohyb po šikmé plošině
+    hrac.pohyb_na_sikme_plosine(zem_mask)
+    hrac2.pohyb_na_sikme_plosine(zem_mask)
     # vykreslování
     screen.fill((0, 0, 0))
     screen.blit(mask_surface, (0, 0))  
