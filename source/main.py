@@ -3,7 +3,7 @@ import math
 from hrac import Hrac
 from hrac2 import Hrac2
 
-pygame.init()
+
 
 velikost_okna_x = 1280
 velikost_okna_y = 720

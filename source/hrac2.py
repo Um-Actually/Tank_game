@@ -23,10 +23,11 @@ class Hrac2():
         if klavesa[pygame.K_LEFT]:
             self.smer_pohybu = -1
             self.rect.x -= self.speed
+            self.image = pygame.image.load("tank_B_textury/Tank_B_les.png")
         if klavesa[pygame.K_RIGHT]:
             self.smer_pohybu = 1
             self.rect.x += self.speed
-
+            self.image = pygame.image.load("tank_B_textury/Tank_B_les_zrcadlove.png")
        #kolize se zemí
         if maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
             test_y = self.rect.y
