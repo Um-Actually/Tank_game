@@ -1,5 +1,6 @@
 import pygame
 import math
+from delo_hrac1 import delo
 
 class Hrac():
     def __init__(self, x, y, sirka, vyska, speed):
@@ -11,6 +12,8 @@ class Hrac():
         self.velka_y = 0
         self.na_zemi = False
         self.smer_pohybu = 0  
+        self.rect = self.image.get_rect(center=(x, y))
+        self.delo = delo(x, y)
 
     def pohni_se(self, klavesa, maska):
         #ukládání pozice
@@ -44,6 +47,7 @@ class Hrac():
         if not self.na_zemi:
             self.velka_y += 0.5
         self.rect.y += self.velka_y
+
         #kontrola kolize při pádu
         if maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
             if self.velka_y > 0: 
@@ -66,15 +70,18 @@ class Hrac():
         self.rect.clamp_ip(pygame.Rect(0, 0, 1280, 720))
 
     def pohyb_na_sikme_plosine(self, maska):
+
         #testovací bod před hráčem
         test_ahead = self.rect.copy()
         test_ahead.x += self.smer_pohybu * self.speed
         found_surface = False
         #hledá povrch nad nebo pod hráčem
+
         for y_offset in range(-int(self.speed * 2), int(self.speed * 2)):
             test_ahead.y = self.rect.y + y_offset
             if maska.overlap(pygame.mask.from_surface(self.image), (test_ahead.x, test_ahead.y)):
                 target_y = test_ahead.y - 1 
+                
                 #plynulí přechod na novou výšku
                 dy = target_y - self.rect.y
                 if abs(dy) > self.speed:
@@ -89,3 +96,4 @@ class Hrac():
 
     def vykresli_se(self, screen, maska):
         screen.blit(self.image, self.rect)
+        self.delo.vykresli_se
