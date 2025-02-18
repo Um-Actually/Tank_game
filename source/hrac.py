@@ -12,6 +12,7 @@ class Hrac():
         self.velka_y = 0
         self.na_zemi = False
         self.smer_pohybu = 0  
+        self.doleva = False
         self.rect = self.image.get_rect(center=(x, y))
         self.delo = delo(x, y)
 
@@ -26,12 +27,15 @@ class Hrac():
             self.smer_pohybu = -1
             self.rect.x -= self.speed
             self.image = pygame.image.load("tank_A_textury/Tank_A_les_zrcadlove.png")
+            self.doleva = True
+            
         if klavesa[pygame.K_d]:
             self.smer_pohybu = 1
             self.rect.x += self.speed
             self.image = pygame.image.load("tank_A_textury/Tank_A_les.png")
+            self.doleva = False
 
-       #kolize se zemí
+        #kolize se zemí
         if maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
             test_y = self.rect.y
             # hledání cesty aby mohl na horu
@@ -70,19 +74,16 @@ class Hrac():
         self.rect.clamp_ip(pygame.Rect(0, 0, 1280, 720))
 
     def pohyb_na_sikme_plosine(self, maska):
-
         #testovací bod před hráčem
         test_ahead = self.rect.copy()
         test_ahead.x += self.smer_pohybu * self.speed
         found_surface = False
-        #hledá povrch nad nebo pod hráčem
-
+        
         for y_offset in range(-int(self.speed * 2), int(self.speed * 2)):
             test_ahead.y = self.rect.y + y_offset
             if maska.overlap(pygame.mask.from_surface(self.image), (test_ahead.x, test_ahead.y)):
                 target_y = test_ahead.y - 1 
                 
-                #plynulí přechod na novou výšku
                 dy = target_y - self.rect.y
                 if abs(dy) > self.speed:
                     dy = self.speed if dy > 0 else -self.speed
@@ -95,5 +96,5 @@ class Hrac():
             self.na_zemi = False
 
     def vykresli_se(self, screen, maska):
+        self.delo.vykresli_se(screen)
         screen.blit(self.image, self.rect)
-        self.delo.vykresli_se

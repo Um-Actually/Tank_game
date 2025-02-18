@@ -3,12 +3,9 @@ import math
 from hrac import Hrac
 from hrac2 import Hrac2
 
-pygame.init()
-
 velikost_okna_x = 1280
 velikost_okna_y = 720
 screen = pygame.display.set_mode((velikost_okna_x, velikost_okna_y))
-
 
 # Načítání pozadí a masky
 zem = pygame.image.load("./zem_textury/pozadi_chozeni_les.png").convert_alpha()
@@ -33,8 +30,7 @@ while status:
     klavesa = pygame.key.get_pressed()
     hrac.pohni_se(klavesa, zem_mask)
     hrac.delo.naklon(klavesa)
-    hrac.delo.aktulizace_pozice(hrac.rect.centerx, hrac.rect.centery,) 
-
+    hrac.delo.aktulizace_pozice(hrac.rect.centerx, hrac.rect.centery, not hrac.doleva)
     hrac2.pohni_se(klavesa, zem_mask)
 
     # Vykreslování
