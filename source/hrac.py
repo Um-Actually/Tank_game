@@ -3,7 +3,7 @@ import math
 from delo_hrac1 import delo
 
 class Hrac():
-    def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu):
+    def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu,textura_delo):
         self.speed = speed
         self.rect = pygame.Rect(x, y, sirka, vyska)
         self.image =textura
@@ -14,7 +14,8 @@ class Hrac():
         self.smer_pohybu = 0  
         self.doleva = True
         self.rect = self.image.get_rect(center=(x, y))
-        self.delo = delo(x, y)
+        self.textura_delo=textura_delo
+        self.delo = delo(x, y,self.textura_delo)
         self.leva=doleva
         self.prava=doprava
         self.nahoru=nahoru

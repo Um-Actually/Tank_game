@@ -22,17 +22,44 @@ t_1_les=pygame.image.load("tank_A_textury/Tank_A_les.png")
 t_1_poust=pygame.image.load("tank_A_textury/Tank_A_poust.png")
 t_1_zima=pygame.image.load("tank_A_textury/Tank_A_zima.png")
 
-t_2_les=("tank_B_textury/Tank_B_les.png")
-t_2_poust=("tank_B_textury/Tank_B_poust.png")
-t_2_zima=("tank_B_textury/Tank_B_zima.png")
+t_2_les=pygame.image.load("tank_B_textury/Tank_B_les_zrcadlove.png")
+t_2_poust=pygame.image.load("tank_B_textury/Tank_B_poust_zrcadlove.png")
+t_2_zima=pygame.image.load("tank_B_textury/Tank_B_zima_zrcadlove.png")
+
+textura_delo1=None
+textura_delo2=None
+d_1_les=pygame.image.load("tank_A_textury/delo_tank_A_les.png")
+d_1_poust=pygame.image.load("tank_A_textury/delo_tank_A_poust.png")
+d_1_zima=pygame.image.load("tank_A_textury/delo_tank_A_zima.png")
+
+d_2_les=pygame.image.load("tank_B_textury/delo_tank_B_les.png")
+d_2_poust=pygame.image.load("tank_B_textury/delo_tank_B_poust.png")
+d_2_zima=pygame.image.load("tank_B_textury/delo_tank_B_zima.png")
+
+textura_hrac1=random.choice([t_1_les,t_1_poust,t_1_zima])
+if textura_hrac1==t_1_les:
+    textura_delo1=d_1_les
+elif textura_hrac1==t_1_poust:
+    textura_delo1=d_1_poust
+else:
+    textura_delo1=d_1_zima
+
+textura_hrac2=random.choice([t_2_les,t_2_poust,t_2_zima])
+if textura_hrac2==t_2_les:
+    textura_delo2=d_2_les
+elif textura_hrac2==t_2_poust:
+    textura_delo2=d_2_poust
+else:
+    textura_delo2=d_2_zima
+
 # Načítání pozadí a masky
 zem = pygame.image.load("./zem_textury/pozadi_chozeni_les.png").convert_alpha()
 zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
 
 # Vytvoření hráčů
-hrac = Hrac(velikost_okna_x // 2, 0, 120, 80, 5,(random.choice([t_1_les,t_1_poust,t_1_zima])),left_h1,right_h1,up_h1,down_h1)
-hrac2 = Hrac(velikost_okna_x // 2, 0, 120, 80, 5,(random.choice([t_1_les,t_1_poust,t_1_zima])),left_h2,right_h2,up_h2,down_h2)
+hrac = Hrac(velikost_okna_x // 2, 0, 120, 80, 5,textura_hrac1,left_h1,right_h1,up_h1,down_h1,textura_delo1)
+hrac2 = Hrac(velikost_okna_x // 2, 0, 120, 80, 5,textura_hrac2,left_h2,right_h2,up_h2,down_h2,textura_delo2)
 
 clock = pygame.time.Clock()
 status = True
@@ -57,7 +84,6 @@ while status:
     # Vykreslování
     screen.fill((0, 100, 240))
     screen.blit(zem, (0, 0))
-    hrac.delo.vykresli_se(screen)
     hrac.vykresli_se(screen, zem_mask)
     hrac2.vykresli_se(screen, zem_mask)
    
