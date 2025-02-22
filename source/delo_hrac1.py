@@ -1,7 +1,7 @@
 import pygame
 
 class delo():
-    def __init__(self,x,y):
+    def __init__(self,x,y,):
         self.x=x
         self.y=y
         self.uhel=0
@@ -12,14 +12,19 @@ class delo():
         self.rect = self.image.get_rect(center=(120, 80))
         self.vpravo=True
 
-    def naklon(self,klavesa):
+    def naklon(self,klavesa,nahoru_klavesa, dolu_klavesa):
         # naklánění děla
-        if klavesa [pygame.K_w]:
-            self.uhel+=self.rotace
-        if klavesa [pygame.K_s]:
-            self.uhel-=self.rotace
-        self.uhel = max(-10, min(70, self.uhel))
-        
+        if len(nahoru_klavesa)==1:
+            if klavesa[ord(nahoru_klavesa)]:
+                self.uhel += self.rotace
+            if klavesa[ord(dolu_klavesa)]:
+                self.uhel -= self.rotace
+        else:
+            if klavesa[getattr(pygame,f'K_{nahoru_klavesa}')]:
+                self.uhel += self.rotace
+            if klavesa[getattr(pygame,f'K_{dolu_klavesa}')]:
+                self.uhel -= self.rotace
+            
         # otáčení děla 
         if not self.vpravo:
             self.zrcadleni_dela=pygame.transform.flip(self.original_image, True, False)

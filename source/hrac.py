@@ -3,7 +3,7 @@ import math
 from delo_hrac1 import delo
 
 class Hrac():
-    def __init__(self, x, y, sirka, vyska, speed):
+    def __init__(self, x, y, sirka, vyska, speed,textura,doleva,doprava,nahoru,dolu):
         self.speed = speed
         self.rect = pygame.Rect(x, y, sirka, vyska)
         self.image = pygame.image.load("tank_A_textury/Tank_A_les.png")
@@ -15,6 +15,10 @@ class Hrac():
         self.doleva = False
         self.rect = self.image.get_rect(center=(x, y))
         self.delo = delo(x, y)
+        self.leva=doleva
+        self.prava=doprava
+        self.nahoru=nahoru
+        self.dolu=dolu
 
     def pohni_se(self, klavesa, maska):
         #ukládání pozice
@@ -23,17 +27,30 @@ class Hrac():
 
         # nastavení směru pohybu
         self.smer_pohybu = 0
-        if klavesa[pygame.K_a]:
-            self.smer_pohybu = -1
-            self.rect.x -= self.speed
-            self.image = pygame.image.load("tank_A_textury/Tank_A_les_zrcadlove.png")
-            self.doleva = True
+        if len(self.leva) == 1:
+            if klavesa[ord(self.leva)]: 
+                self.smer_pohybu = -1
+                self.rect.x -= self.speed
+                self.image = pygame.image.load("tank_A_textury/Tank_A_les_zrcadlove.png")
+                self.doleva = True
+                
+            if klavesa[ord(self.prava)]:
+                self.smer_pohybu = 1
+                self.rect.x += self.speed
+                self.image = pygame.image.load("tank_A_textury/Tank_A_les.png")
+                self.doleva = False
+        else:
+            if klavesa[getattr(pygame, f'K_{self.leva}')]:
+                self.smer_pohybu = -1
+                self.rect.x -= self.speed
+                self.image = pygame.image.load("tank_A_textury/Tank_A_les_zrcadlove.png")
+                self.doleva = True
             
-        if klavesa[pygame.K_d]:
-            self.smer_pohybu = 1
-            self.rect.x += self.speed
-            self.image = pygame.image.load("tank_A_textury/Tank_A_les.png")
-            self.doleva = False
+            if klavesa[getattr(pygame, f'K_{self.prava}')]:
+                self.smer_pohybu = 1
+                self.rect.x += self.speed
+                self.image = pygame.image.load("tank_A_textury/Tank_A_les.png")
+                self.doleva = False
 
         #kolize se zemí
         if maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
