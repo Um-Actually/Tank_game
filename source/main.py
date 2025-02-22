@@ -48,11 +48,11 @@ while status:
     klavesa = pygame.key.get_pressed()
     hrac.pohni_se(klavesa, zem_mask)
     hrac.delo.naklon(klavesa, up_h1, down_h1)
-    hrac.delo.aktulizace_pozice(hrac.rect.centerx, hrac.rect.centery, not hrac.doleva)
+    hrac.delo.aktulizace_pozice(hrac.rect.centerx, hrac.rect.centery, hrac.doleva)
 
     hrac2.pohni_se(klavesa, zem_mask)
     hrac2.delo.naklon(klavesa, up_h2, down_h2)
-    hrac2.delo.aktulizace_pozice(hrac2.rect.centerx, hrac2.rect.centery, not hrac2.doleva)
+    hrac2.delo.aktulizace_pozice(hrac2.rect.centerx, hrac2.rect.centery, hrac2.doleva)
 
     # Vykreslování
     screen.fill((0, 100, 240))
