@@ -7,7 +7,7 @@ class delo():
         self.uhel=0
         self.rotace=1
         self.image=textura
-        self.image=pygame.transform.scale(self.image, (60, 5))
+        self.image=pygame.transform.scale(self.image, (120, 5))
         self.original_image=self.image
         self.rect = self.image.get_rect()
         self.rect.midleft=(x,y)

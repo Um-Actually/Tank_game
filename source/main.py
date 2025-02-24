@@ -35,6 +35,8 @@ d_1_zima=pygame.image.load("tank_A_textury/delo_tank_A_zima.png")
 d_2_les=pygame.image.load("tank_B_textury/delo_tank_B_les.png")
 d_2_poust=pygame.image.load("tank_B_textury/delo_tank_B_poust.png")
 d_2_zima=pygame.image.load("tank_B_textury/delo_tank_B_zima.png")
+delo_pokus=pygame.image.load("tank_A_textury/hokus_pokus_novi_delus.png")
+
 
 textura_hrac1=random.choice([t_1_les,t_1_poust,t_1_zima])
 if textura_hrac1==t_1_les:
@@ -58,8 +60,8 @@ zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
 
 # Vytvoření hráčů
-hrac = Hrac(velikost_okna_x // 2, 0, 120, 80, 5,textura_hrac1,left_h1,right_h1,up_h1,down_h1,textura_delo1)
-hrac2 = Hrac(velikost_okna_x // 2, 0, 120, 80, 5,textura_hrac2,left_h2,right_h2,up_h2,down_h2,textura_delo2)
+hrac = Hrac(velikost_okna_x // 2, 0, 120, 80, 2,textura_hrac1,left_h1,right_h1,up_h1,down_h1,delo_pokus)
+hrac2 = Hrac(velikost_okna_x // 2, 0, 120, 80, 2,textura_hrac2,left_h2,right_h2,up_h2,down_h2,delo_pokus)
 
 clock = pygame.time.Clock()
 status = True
