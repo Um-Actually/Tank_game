@@ -3,7 +3,6 @@ import random
 import math
 from hrac import Hrac
 
-
 velikost_okna_x = 1280
 velikost_okna_y = 720
 screen = pygame.display.set_mode((velikost_okna_x, velikost_okna_y))
@@ -60,8 +59,8 @@ zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
 
 # Vytvoření hráčů
-hrac = Hrac(velikost_okna_x // 2, 0, 120, 80, 2,textura_hrac1,left_h1,right_h1,up_h1,down_h1,delo_pokus)
-hrac2 = Hrac(velikost_okna_x // 2, 0, 120, 80, 2,textura_hrac2,left_h2,right_h2,up_h2,down_h2,delo_pokus)
+hrac = Hrac(velikost_okna_x // 2, 0, 120, 80, 2,textura_hrac1,left_h1,right_h1,up_h1,down_h1,textura_delo1)
+hrac2 = Hrac(velikost_okna_x // 2, 0, 120, 80, 2,textura_hrac2,left_h2,right_h2,up_h2,down_h2,textura_delo2)
 
 clock = pygame.time.Clock()
 status = True

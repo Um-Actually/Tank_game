@@ -7,7 +7,7 @@ class delo():
         self.uhel=0
         self.rotace=1
         self.image=textura
-        self.image=pygame.transform.scale(self.image, (120, 5))
+        self.image=pygame.transform.scale(self.image, (120, 6))
         self.original_image=self.image
         self.rect = self.image.get_rect()
         self.rect.midleft=(x,y)
@@ -26,10 +26,8 @@ class delo():
         else:
             if klavesa[getattr(pygame,f'K_{nahoru_klavesa}')]:
                 self.uhel += self.rotace
-                print(self.uhel)
             if klavesa[getattr(pygame,f'K_{dolu_klavesa}')]:
                 self.uhel -= self.rotace
-                print(self.uhel)
         self.uhel = max(-10, min(70, self.uhel))
                
         # otáčení děla 
