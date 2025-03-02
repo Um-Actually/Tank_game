@@ -15,7 +15,7 @@ up_h1 = "w"
 down_h1 = "s"
 right_h1 = "d"
 fire_h1 = "SPACE" 
-switch_h1 = "r"    
+switch_h1 = "e"    
 
 left_h2 = "LEFT"
 up_h2 = "UP"
@@ -61,7 +61,7 @@ else:
     textura_delo2 = d_2_zima
 
 # Načítání pozadí a masky
-zem = pygame.image.load("./zem_textury/pozadi_chozeni_les.png").convert_alpha()
+zem = pygame.image.load("./zem_textury/zem_chozeni_zima.png").convert_alpha()
 zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
 
@@ -93,7 +93,7 @@ while status:
                 hrac.zdravi = 100
                 hrac.zivy = True
                 hrac2.zdravi = 100
-                hrac2.zivy = True
+                hrac2.zivy = True 
                 konec_hry = False
                 winner = None
 

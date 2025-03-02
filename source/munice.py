@@ -14,15 +14,16 @@ class Projektil:
         
         # Nastavení vlastností podle typu náboje
         if typ == "standardni":
-            self.damage = 10
+            self.damage = 20
             self.radius = 5
             self.barva = (255, 0, 0)  
         elif typ == "velky":
-            self.damage = 20
+            self.damage = 40
             self.radius = 8
-            self.barva = (255, 255, 0)  
+            self.barva = (255, 255, 0) 
+            self.rychlost= rychlost*0.75
         elif typ == "rychly":
-            self.damage = 5
+            self.damage = 10
             self.radius = 3
             self.rychlost = rychlost * 1.5
             self.barva = (0, 255, 255)  

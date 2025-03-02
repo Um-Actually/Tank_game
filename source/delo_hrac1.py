@@ -36,7 +36,7 @@ class delo():
                 self.uhel += self.rotace
             if klavesa[getattr(pygame, f'K_{dolu_klavesa}')]:
                 self.uhel -= self.rotace
-        self.uhel = max(-10, min(70, self.uhel))
+        self.uhel = max(-10, min(50, self.uhel))
                
         # otáčení děla 
         if not self.vpravo:
@@ -69,7 +69,7 @@ class delo():
                 self.rect.centery, 
                 self.uhel, 
                 self.vpravo, 
-                10,
+                17,
                 self.aktualni_typ_naboje
             )
             
@@ -100,7 +100,7 @@ class delo():
             
             for nepritel in nepratele:
                 if projektil.zkontroluj_kolizi_s_hracem(nepritel):
-                    # Zde můžeš přidat ubírání životů nepříteli
+                    nepritel.prijmi_poskozeni(projektil.damage)
                     pass
             
             if not projektil.aktivni or kolize:
