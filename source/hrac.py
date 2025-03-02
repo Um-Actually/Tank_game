@@ -3,10 +3,10 @@ import math
 from delo_hrac1 import delo
 
 class Hrac():
-    def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu,textura_delo):
+    def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu, textura_delo, strilej_klavesa="SPACE", zmen_naboj_klavesa="r"):
         self.speed = speed
         self.rect = pygame.Rect(x, y, sirka, vyska)
-        self.image =textura
+        self.image = textura
         self.image = pygame.transform.scale(self.image, (sirka, vyska))
         self.sklon = 0.5
         self.velka_y = 0
@@ -14,16 +14,23 @@ class Hrac():
         self.smer_pohybu = 0  
         self.doleva = True
         self.rect = self.image.get_rect(center=(x, y))
-        self.textura_delo=textura_delo
-        self.delo = delo(x, y,self.textura_delo)
-        self.leva=doleva
-        self.prava=doprava
-        self.nahoru=nahoru
-        self.dolu=dolu
-        self.original_textura=textura
-        self.uhel=0
+        self.textura_delo = textura_delo
+        self.delo = delo(x, y, self.textura_delo)
+        self.leva = doleva
+        self.prava = doprava
+        self.nahoru = nahoru
+        self.dolu = dolu
+        self.strilej_klavesa = strilej_klavesa
+        self.zmen_naboj_klavesa = zmen_naboj_klavesa
+        self.original_textura = textura
+        self.uhel = 0
+        self.zdravi = 100
+        self.zivy = True
 
     def pohni_se(self, klavesa, maska):
+        if not self.zivy:
+            return
+            
         #ukládání pozice
         original_x = self.rect.x
         original_y = self.rect.y
@@ -54,7 +61,7 @@ class Hrac():
                 self.doleva = True
             
         if not self.doleva:
-            self.zrcadleni_tanku=pygame.transform.flip(self.original_textura, True, False)
+            self.zrcadleni_tanku = pygame.transform.flip(self.original_textura, True, False)
             self.image = pygame.transform.rotate(self.zrcadleni_tanku, -self.uhel)
         else:
             self.image = pygame.transform.rotate(self.original_textura, self.uhel)
@@ -62,21 +69,18 @@ class Hrac():
         #kolize se zemí
         if maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
             test_y = self.rect.y
-            # hledání cesty aby mohl na horu
             for i in range(int(self.speed * 2)): 
                 test_y -= 1
                 if not maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, test_y)):
                     self.rect.y = test_y
                     break
             else:
-                self.rect.x = original_x   #když nenajde vrátí se zpět
-       
-        # gravitace když není na zemi
+                self.rect.x = original_x 
+
         if not self.na_zemi:
             self.velka_y += 0.5
         self.rect.y += self.velka_y
 
-        #kontrola kolize při pádu
         if maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
             if self.velka_y > 0: 
                 while maska.overlap(pygame.mask.from_surface(self.image), (self.rect.x, self.rect.y)):
@@ -118,7 +122,30 @@ class Hrac():
         
         if not found_surface:
             self.na_zemi = False
+    
+    def prijmi_poskozeni(self, poskozeni):
+        self.zdravi -= poskozeni
+        if self.zdravi <= 0:
+            self.zdravi = 0
+            self.zivy = False
+    
+    def aktualizace(self, klavesa, maska, nepratele):
+        # Zpracování střelby
+        if self.zivy:
+            self.delo.strilej(klavesa, self.strilej_klavesa)
+            self.delo.zmen_typ_naboje(klavesa, self.zmen_naboj_klavesa)
+            
+            # Předáme nepřátele pro kontrolu kolizí s projektily
+            if nepratele:
+                self.delo.update_projektily(maska, nepratele)
+            else:
+                self.delo.update_projektily(maska, [])
 
     def vykresli_se(self, screen, maska):
-        self.delo.vykresli_se(screen)
-        screen.blit(self.image, self.rect)
+        if self.zivy:
+            self.delo.vykresli_se(screen)
+            screen.blit(self.image, self.rect)
+            
+            # Vykreslení ukazatele zdraví
+            pygame.draw.rect(screen, (255, 0, 0), (self.rect.x, self.rect.y - 10, self.rect.width, 5))
+            pygame.draw.rect(screen, (0, 255, 0), (self.rect.x, self.rect.y - 10, self.rect.width * (self.zdravi / 100), 5))
