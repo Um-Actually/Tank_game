@@ -7,7 +7,7 @@ from hrac import Hrac
 velikost_okna_x = 1920
 velikost_okna_y = 1080
 screen = pygame.display.set_mode((velikost_okna_x, velikost_okna_y))
-pygame.display.set_caption("Tank Battle")
+pygame.display.set_caption("War of tanks")
 
 # Klávesy pro ovládání hráčů
 left_h1 = "a"
@@ -92,8 +92,10 @@ while status:
                 # Restart hry
                 hrac.zdravi = 100
                 hrac.zivy = True
+                hrac.delo.munice={"standardni": 7, "velky": 2, "rychly": 10}
                 hrac2.zdravi = 100
                 hrac2.zivy = True 
+                hrac2.delo.munice={"standardni": 7, "velky": 2, "rychly": 10}
                 konec_hry = False
                 winner = None
 
@@ -107,12 +109,12 @@ while status:
         # Pohyb a aktualizace hráčů
         hrac.pohni_se(klavesa, zem_mask)
         hrac.delo.naklon(klavesa, up_h1, down_h1)
-        hrac.delo.aktulizace_pozice(hrac.rect.centerx, hrac.rect.centery, hrac.doleva)
+        hrac.delo.aktualizace_pozice(hrac.rect.centerx, hrac.rect.centery, hrac.doleva)
         hrac.aktualizace(klavesa, zem_mask, nepratele_hrac1)
         
         hrac2.pohni_se(klavesa, zem_mask)
         hrac2.delo.naklon(klavesa, up_h2, down_h2)
-        hrac2.delo.aktulizace_pozice(hrac2.rect.centerx, hrac2.rect.centery, hrac2.doleva)
+        hrac2.delo.aktualizace_pozice(hrac2.rect.centerx, hrac2.rect.centery, hrac2.doleva)
         hrac2.aktualizace(klavesa, zem_mask, nepratele_hrac2)
         
         # Kontrola kolizí projektilů s hráči

@@ -23,6 +23,9 @@ class delo():
         self.aktualni_typ_naboje = "standardni"
         self.typy_naboju = ["standardni", "velky", "rychly"]
         self.index_typu_naboje = 0
+        
+        # Přidání omezené munice pro každý typ náboje
+        self.munice = {"standardni": 7, "velky": 2, "rychly": 10}
     
     def naklon(self, klavesa, nahoru_klavesa, dolu_klavesa):
         # naklánění děla
@@ -58,7 +61,7 @@ class delo():
         else:
             stisknuto = klavesa[getattr(pygame, f'K_{strelba_klavesa}')]
             
-        if stisknuto and self.cooldown == 0:
+        if stisknuto and self.cooldown == 0 and self.munice[self.aktualni_typ_naboje] > 0:
             if self.vpravo:
                 pozice_x = self.rect.right
             else:
@@ -74,6 +77,7 @@ class delo():
             )
             
             self.projektily.append(novy_projektil)
+            self.munice[self.aktualni_typ_naboje] -= 1
             self.cooldown = self.max_cooldown
             return True
         return False
@@ -92,36 +96,30 @@ class delo():
             return True
         return False
     
-    def update_projektily(self, maska, nepratele):
-        projektily_ke_smazani = []
-        
-        for i, projektil in enumerate(self.projektily):
-            kolize = projektil.update(maska)
-            
-            for nepritel in nepratele:
-                if projektil.zkontroluj_kolizi_s_hracem(nepritel):
-                    nepritel.prijmi_poskozeni(projektil.damage)
-                    pass
-            
-            if not projektil.aktivni or kolize:
-                projektily_ke_smazani.append(i)
-        
-        # Odstranění nábojů
-        for i in sorted(projektily_ke_smazani, reverse=True):
-            self.projektily.pop(i)
-    
-    def aktulizace_pozice(self, hrac_x, hrac_y, smer_vpravo=True):
-        if smer_vpravo==True:
-            self.x = hrac_x-self.posun2
+    def aktualizace_pozice(self, hrac_x, hrac_y, smer_vpravo=True):
+        if smer_vpravo:
+            self.x = hrac_x - self.posun2
         else:
-            self.x=hrac_x+self.posun2
+            self.x = hrac_x + self.posun2
         self.y = hrac_y - self.posun
         self.vpravo = smer_vpravo
         if self.vpravo:
             self.rect.midleft = (self.x, self.y)
         else:
             self.rect.midright = (self.x, self.y)
-
+    
+    def update_projektily(self, maska, nepratele):
+        projektily_ke_smazani = []
+        for i, projektil in enumerate(self.projektily):
+            kolize = projektil.update(maska)
+            for nepritel in nepratele:
+                if projektil.zkontroluj_kolizi_s_hracem(nepritel):
+                    nepritel.prijmi_poskozeni(projektil.damage)
+            if not projektil.aktivni or kolize:
+                projektily_ke_smazani.append(i)
+        for i in sorted(projektily_ke_smazani, reverse=True):
+            self.projektily.pop(i)
+    
     def vykresli_se(self, screen):
         # Vykreslení děla
         screen.blit(self.image, self.rect)
@@ -133,7 +131,7 @@ class delo():
             pygame.draw.rect(screen, (255, 0, 0), (self.x - 20, self.y - 30, 40 * (self.cooldown / self.max_cooldown), 5))
         
         font = pygame.font.SysFont(None, 24)
-        typ_text = font.render(self.aktualni_typ_naboje, True, (255, 255, 255))
+        typ_text = font.render(f'{self.aktualni_typ_naboje}: {self.munice[self.aktualni_typ_naboje]}', True, (255, 255, 255))
         if self.vpravo:
             screen.blit(typ_text, (self.x - 20, self.y - 40))
         else:
