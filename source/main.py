@@ -4,8 +4,8 @@ import math
 from hrac import Hrac
 
 
-velikost_okna_x = 1280
-velikost_okna_y = 720
+velikost_okna_x = 1920
+velikost_okna_y = 1080
 screen = pygame.display.set_mode((velikost_okna_x, velikost_okna_y))
 pygame.display.set_caption("Tank Battle")
 

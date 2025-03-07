@@ -99,7 +99,7 @@ class Hrac():
         if not maska.overlap(pygame.mask.from_surface(self.image), (test_rect.x, test_rect.y)):
             self.na_zemi = False
 
-        self.rect.clamp_ip(pygame.Rect(0, 0, 1280, 720))
+        self.rect.clamp_ip(pygame.Rect(0, 0, 1920, 1080))
 
     def pohyb_na_sikme_plosine(self, maska):
         #testovací bod před hráčem

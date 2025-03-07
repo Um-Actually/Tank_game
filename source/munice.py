@@ -32,9 +32,11 @@ class Projektil:
         if self.smer_vpravo:
             self.vx = math.cos(math.radians(uhel)) * self.rychlost
             self.vy = -math.sin(math.radians(uhel)) * self.rychlost
+            self.x = x-25
         else:
             self.vx = -math.cos(math.radians(uhel)) * self.rychlost
             self.vy = -math.sin(math.radians(uhel)) * self.rychlost
+            self.x = x+25
         
         self.rect = pygame.Rect(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)
     
@@ -51,7 +53,7 @@ class Projektil:
         if maska.overlap(pygame.mask.from_surface(surface), (self.rect.x, self.rect.y)):
             self.exploduj()
             return True
-        if self.x < 0 or self.x > 1280 or self.y < 0 or self.y > 720:
+        if self.x < 0 or self.x > 1920 or self.y < 0 or self.y > 1080:
             self.aktivni = False
             return True
             
