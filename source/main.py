@@ -130,13 +130,13 @@ while status:
                 hrac.zivy = True
                 hrac.docasne_efekty = {}  # Reset dočasných efektů
                 hrac.speed = hrac.original_speed  # Reset rychlosti
-                hrac.delo.munice={"standardni": 7, "velky": 2, "rychly": 10}
+                hrac.delo.munice={"standardni": 7, "velky": 2, "rychly": 10,"smoke":12}
                 
                 hrac2.zdravi = 100
                 hrac2.zivy = True 
                 hrac2.docasne_efekty = {}  # Reset dočasných efektů
                 hrac2.speed = hrac2.original_speed  # Reset rychlosti
-                hrac2.delo.munice={"standardni": 7, "velky": 2, "rychly": 10}
+                hrac2.delo.munice={"standardni": 7, "velky": 2, "rychly": 10,"smoke":12}
                 
                 # Reset power-upů
                 power_up_manager.power_ups = []

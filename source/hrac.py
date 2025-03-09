@@ -195,9 +195,7 @@ class Hrac():
                     screen.blit(speed_surface, (self.rect.right, self.rect.centery - 5))
                 else:
                     screen.blit(speed_surface, (self.rect.left - 20, self.rect.centery - 5))
-            
             screen.blit(self.image, self.rect)
-            
             # Vykreslení ukazatele zdraví
             pygame.draw.rect(screen, (255, 0, 0), (self.rect.x, self.rect.y - 10, self.rect.width, 5))
             pygame.draw.rect(screen, (0, 255, 0), (self.rect.x, self.rect.y - 10, self.rect.width * (self.zdravi / 100), 5))
