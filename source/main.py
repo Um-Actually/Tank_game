@@ -14,15 +14,19 @@ left_h1 = "a"
 up_h1 = "w"
 down_h1 = "s"
 right_h1 = "d"
-fire_h1 = "SPACE" 
-switch_h1 = "e"    
+fire_h1 = "SPACE"        
+std_h1 = "1"             
+velky_h1 = "2"           
+rychly_h1 = "3"          
 
 left_h2 = "LEFT"
 up_h2 = "UP"
 down_h2 = "DOWN"
 right_h2 = "RIGHT"
-fire_h2 = "KP0"    # Klávesa pro střelbu (numerická klávesnice 0)
-switch_h2 = "KP_PERIOD"  # Klávesa pro změnu typu náboje (numerická klávesnice tečka)
+fire_h2 = "KP0"          
+std_h2 = "KP1"           
+velky_h2 = "KP2"         
+rychly_h2 = "KP3"        
 
 # Načítání textur tanků
 t_1_les = pygame.image.load("tank_A_textury/Tank_A_les.png")
@@ -65,9 +69,14 @@ zem = pygame.image.load("./zem_textury/zem_chozeni_zima.png").convert_alpha()
 zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
 
-# Vytvoření hráčů
-hrac = Hrac(velikost_okna_x // 4, 0, 120, 80, 2, textura_hrac1, left_h1, right_h1, up_h1, down_h1, textura_delo1, fire_h1, switch_h1)
-hrac2 = Hrac(velikost_okna_x * 3 // 4, 0, 120, 80, 2, textura_hrac2, left_h2, right_h2, up_h2, down_h2, textura_delo2, fire_h2, switch_h2)
+# Vytvoření hráčů 
+hrac = Hrac(velikost_okna_x // 4, 0, 120, 80, 2, textura_hrac1, 
+            left_h1, right_h1, up_h1, down_h1, textura_delo1, 
+            fire_h1, std_h1, velky_h1, rychly_h1)
+
+hrac2 = Hrac(velikost_okna_x * 3 // 4, 0, 120, 80, 2, textura_hrac2, 
+             left_h2, right_h2, up_h2, down_h2, textura_delo2, 
+             fire_h2, std_h2, velky_h2, rychly_h2)
 
 # Inicializace fontu 
 pygame.font.init()
@@ -141,4 +150,8 @@ while status:
     # Vykreslení hráčů
     hrac.vykresli_se(screen, zem_mask)
     hrac2.vykresli_se(screen, zem_mask)
+    if konec_hry==True:
+        win_text = font.render(f'Vítěz: {winner}', True, (255, 255, 255))
+        screen.blit(win_text, (velikost_okna_x // 2 - 150, 50))
+        
     pygame.display.update()

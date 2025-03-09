@@ -3,7 +3,8 @@ import math
 from delo_hrac1 import delo
 
 class Hrac():
-    def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu, textura_delo, strilej_klavesa="SPACE", zmen_naboj_klavesa="r"):
+    def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu, textura_delo, 
+                 strilej_klavesa="SPACE", standardni_klavesa="1", velky_klavesa="2", rychly_klavesa="3"):
         self.speed = speed
         self.rect = pygame.Rect(x, y, sirka, vyska)
         self.image = textura
@@ -21,7 +22,14 @@ class Hrac():
         self.nahoru = nahoru
         self.dolu = dolu
         self.strilej_klavesa = strilej_klavesa
-        self.zmen_naboj_klavesa = zmen_naboj_klavesa
+        self.standardni_klavesa = standardni_klavesa
+        self.velky_klavesa = velky_klavesa
+        self.rychly_klavesa = rychly_klavesa
+        self.klavesy_naboju = {
+            "standardni": self.standardni_klavesa,
+            "velky": self.velky_klavesa,
+            "rychly": self.rychly_klavesa
+        }
         self.original_textura = textura
         self.uhel = 0
         self.zdravi = 100
@@ -130,10 +138,10 @@ class Hrac():
             self.zivy = False
     
     def aktualizace(self, klavesa, maska, nepratele):
-        # Zpracování střelby
+        # Zpracování střelby a přepínání nábojů
         if self.zivy:
             self.delo.strilej(klavesa, self.strilej_klavesa)
-            self.delo.zmen_typ_naboje(klavesa, self.zmen_naboj_klavesa)
+            self.delo.prepni_naboj(klavesa, self.klavesy_naboju)
             
             # Předáme nepřátele pro kontrolu kolizí s projektily
             if nepratele:

@@ -82,18 +82,26 @@ class delo():
             return True
         return False
     
-    def zmen_typ_naboje(self, klavesa, zmena_klavesa):
-        stisknuto = False
-        if len(zmena_klavesa) == 1:
-            stisknuto = klavesa[ord(zmena_klavesa)]
-        else:
-            stisknuto = klavesa[getattr(pygame, f'K_{zmena_klavesa}')]
-            
-        if stisknuto and len(self.projektily) == 0:  
-            # Změna typu náboje
-            self.index_typu_naboje = (self.index_typu_naboje + 1) % len(self.typy_naboju)
-            self.aktualni_typ_naboje = self.typy_naboju[self.index_typu_naboje]
+    def nastav_typ_naboje(self, typ_naboje):
+        if typ_naboje in self.typy_naboju:
+            self.aktualni_typ_naboje = typ_naboje
+            self.index_typu_naboje = self.typy_naboju.index(typ_naboje)
             return True
+        return False
+    
+    def prepni_naboj(self, klavesa, klavesy_naboju):
+
+        for typ_naboje, klavesa_pro_naboj in klavesy_naboju.items():
+            stisknuto = False
+            if len(klavesa_pro_naboj) == 1:
+                stisknuto = klavesa[ord(klavesa_pro_naboj)]
+            else:
+                stisknuto = klavesa[getattr(pygame, f'K_{klavesa_pro_naboj}')]
+                
+            if stisknuto and typ_naboje in self.typy_naboju:
+                self.aktualni_typ_naboje = typ_naboje
+                self.index_typu_naboje = self.typy_naboju.index(typ_naboje)
+                return True
         return False
     
     def aktualizace_pozice(self, hrac_x, hrac_y, smer_vpravo=True):
