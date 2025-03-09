@@ -21,11 +21,11 @@ class delo():
         self.max_cooldown = 60 
         self.projektily = []
         self.aktualni_typ_naboje = "standardni"
-        self.typy_naboju = ["standardni", "velky", "rychly"]
+        self.typy_naboju = ["standardni", "velky", "rychly","smoke"]
         self.index_typu_naboje = 0
         
         # Přidání omezené munice pro každý typ náboje
-        self.munice = {"standardni": 7, "velky": 2, "rychly": 10}
+        self.munice = {"standardni": 7, "velky": 2, "rychly": 10,"smoke":12}
     
     def naklon(self, klavesa, nahoru_klavesa, dolu_klavesa):
         # naklánění děla

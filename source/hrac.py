@@ -4,7 +4,7 @@ from delo_hrac1 import delo
 
 class Hrac():
     def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu, textura_delo, 
-                 strilej_klavesa="SPACE", standardni_klavesa="1", velky_klavesa="2", rychly_klavesa="3"):
+                 strilej_klavesa="SPACE", standardni_klavesa="1", velky_klavesa="2", rychly_klavesa="3",smoke_klavesa="4"):
         self.speed = speed
         self.rect = pygame.Rect(x, y, sirka, vyska)
         self.image = textura
@@ -25,10 +25,12 @@ class Hrac():
         self.standardni_klavesa = standardni_klavesa
         self.velky_klavesa = velky_klavesa
         self.rychly_klavesa = rychly_klavesa
+        self.smoke_klavesa=smoke_klavesa
         self.klavesy_naboju = {
             "standardni": self.standardni_klavesa,
             "velky": self.velky_klavesa,
-            "rychly": self.rychly_klavesa
+            "rychly": self.rychly_klavesa,
+            "smoke": self.smoke_klavesa
         }
         self.original_textura = textura
         self.uhel = 0
@@ -170,7 +172,7 @@ class Hrac():
     
     def vykresli_se(self, screen, maska):
         if self.zivy:
-            self.delo.vykresli_se(screen)
+
             
             #  vykresli efekt štítu
             if "shield" in self.docasne_efekty and self.docasne_efekty["shield"].get("aktivni", False):
@@ -199,3 +201,4 @@ class Hrac():
             # Vykreslení ukazatele zdraví
             pygame.draw.rect(screen, (255, 0, 0), (self.rect.x, self.rect.y - 10, self.rect.width, 5))
             pygame.draw.rect(screen, (0, 255, 0), (self.rect.x, self.rect.y - 10, self.rect.width * (self.zdravi / 100), 5))
+            self.delo.vykresli_se(screen)

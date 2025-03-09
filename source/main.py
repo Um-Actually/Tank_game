@@ -17,7 +17,8 @@ right_h1 = "d"
 fire_h1 = "SPACE"        
 std_h1 = "1"             
 velky_h1 = "2"           
-rychly_h1 = "3"          
+rychly_h1 = "3"        
+smoke_h1=  "4"
 
 left_h2 = "LEFT"
 up_h2 = "UP"
@@ -26,7 +27,8 @@ right_h2 = "RIGHT"
 fire_h2 = "KP0"          
 std_h2 = "KP1"           
 velky_h2 = "KP2"         
-rychly_h2 = "KP3"        
+rychly_h2 = "KP3"      
+smoke_h2= "KP4"   
 
 # Načítání textur tanků
 t_1_les = pygame.image.load("tank_A_textury/Tank_A_les.png")
@@ -78,11 +80,11 @@ zem_mask = pygame.mask.from_surface(zem)
 # Vytvoření hráčů 
 hrac = Hrac(velikost_okna_x // 4, 0, 120, 80, 2, textura_hrac1, 
             left_h1, right_h1, up_h1, down_h1, textura_delo1, 
-            fire_h1, std_h1, velky_h1, rychly_h1)
+            fire_h1, std_h1, velky_h1, rychly_h1, smoke_h1)
 
 hrac2 = Hrac(velikost_okna_x * 3 // 4, 0, 120, 80, 2, textura_hrac2, 
              left_h2, right_h2, up_h2, down_h2, textura_delo2, 
-             fire_h2, std_h2, velky_h2, rychly_h2)
+             fire_h2, std_h2, velky_h2, rychly_h2 ,smoke_h2)
 
 # Inicializace fontu 
 pygame.font.init()
