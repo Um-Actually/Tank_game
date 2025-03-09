@@ -36,7 +36,6 @@ class Projektil:
             self.radius = 200
             self.rychlost = rychlost * 0
             self.barva = (255, 255, 255)
-  
             self.max_lifetime = 60 * 10  
             self.lifetime = 0
             self.gravitace = 0 

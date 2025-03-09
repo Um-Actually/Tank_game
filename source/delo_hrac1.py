@@ -132,6 +132,7 @@ class delo():
         # Vykreslení děla
         screen.blit(self.image, self.rect)
    
+    def vykresleni_naboju(self,screen):
         if self.cooldown > 0:
             pygame.draw.rect(screen, (255, 0, 0), (self.x - 20, self.y - 30, 40 * (self.cooldown / self.max_cooldown), 5))
         
