@@ -39,7 +39,7 @@ class delo():
                 self.uhel += self.rotace
             if klavesa[getattr(pygame, f'K_{dolu_klavesa}')]:
                 self.uhel -= self.rotace
-        self.uhel = max(-10, min(50, self.uhel))
+        self.uhel = max(-20, min(50, self.uhel))
                
         # otáčení děla 
         if not self.vpravo:

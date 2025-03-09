@@ -34,6 +34,12 @@ class Hrac():
         self.uhel = 0
         self.zdravi = 100
         self.zivy = True
+        
+        # Nové atributy pro power-upy
+        self.docasne_efekty = {} 
+        self.original_speed = speed 
+        self.ma_stit = False 
+        self.boost_damage = 1.0  
 
     def pohni_se(self, klavesa, maska):
         if not self.zivy:
@@ -132,26 +138,62 @@ class Hrac():
             self.na_zemi = False
     
     def prijmi_poskozeni(self, poskozeni):
+        if "shield" in self.docasne_efekty and self.docasne_efekty["shield"].get("aktivni", False):
+            poskozeni *= 0.25
+        
         self.zdravi -= poskozeni
         if self.zdravi <= 0:
             self.zdravi = 0
             self.zivy = False
     
     def aktualizace(self, klavesa, maska, nepratele):
-        # Zpracování střelby a přepínání nábojů
+
         if self.zivy:
+            puvodni_damage = {}
+            if "damage_boost" in self.docasne_efekty and self.docasne_efekty["damage_boost"].get("aktivni", False):
+                # Uložení původních hodnot poškození
+                for projektil in self.delo.projektily:
+                    puvodni_damage[projektil] = projektil.damage
+                    projektil.damage *= 1.5  
+            
             self.delo.strilej(klavesa, self.strilej_klavesa)
             self.delo.prepni_naboj(klavesa, self.klavesy_naboju)
-            
-            # Předáme nepřátele pro kontrolu kolizí s projektily
+
             if nepratele:
                 self.delo.update_projektily(maska, nepratele)
             else:
                 self.delo.update_projektily(maska, [])
-
+            
+            # Vrácení původních hodnot poškození
+            for projektil, damage in puvodni_damage.items():
+                projektil.damage = damage
+    
     def vykresli_se(self, screen, maska):
         if self.zivy:
             self.delo.vykresli_se(screen)
+            
+            #  vykresli efekt štítu
+            if "shield" in self.docasne_efekty and self.docasne_efekty["shield"].get("aktivni", False):
+                shield_surface = pygame.Surface((self.rect.width + 20, self.rect.height + 20), pygame.SRCALPHA)
+                pygame.draw.ellipse(shield_surface, (0, 100, 255, 120), shield_surface.get_rect())
+                screen.blit(shield_surface, (self.rect.x - 10, self.rect.y - 10))
+            
+            
+
+            if "speed" in self.docasne_efekty:                
+                speed_surface = pygame.Surface((20, 10), pygame.SRCALPHA)
+                
+                smer = -1 if self.doleva else 1
+                for i in range(3):
+                    alpha = 200 - i * 60
+                    pygame.draw.rect(speed_surface, (0, 255, 255, alpha), (i * 5, 0, 5, 10))
+                
+                if smer == -1:
+                    speed_surface = pygame.transform.flip(speed_surface, True, False)
+                    screen.blit(speed_surface, (self.rect.right, self.rect.centery - 5))
+                else:
+                    screen.blit(speed_surface, (self.rect.left - 20, self.rect.centery - 5))
+            
             screen.blit(self.image, self.rect)
             
             # Vykreslení ukazatele zdraví

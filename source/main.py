@@ -2,7 +2,7 @@ import pygame
 import random
 import math
 from hrac import Hrac
-
+from power_upy import PowerUpManager
 
 velikost_okna_x = 1920
 velikost_okna_y = 1080
@@ -64,8 +64,14 @@ elif textura_hrac2 == t_2_poust:
 else:
     textura_delo2 = d_2_zima
 
+
+zem_les=pygame.image.load("./zem_textury/zem_chozeni_les.png").convert_alpha()
+zem_poust=pygame.image.load("./zem_textury/zem_chozeni_poust.png").convert_alpha()
+zem_zima=pygame.image.load("./zem_textury/zem_chozeni_zima.png").convert_alpha()
+
+
 # Načítání pozadí a masky
-zem = pygame.image.load("./zem_textury/zem_chozeni_zima.png").convert_alpha()
+zem = random.choice([zem_les,zem_poust,zem_zima])
 zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
 
@@ -81,6 +87,25 @@ hrac2 = Hrac(velikost_okna_x * 3 // 4, 0, 120, 80, 2, textura_hrac2,
 # Inicializace fontu 
 pygame.font.init()
 font = pygame.font.SysFont(None, 36)
+
+# Inicializace správce power-upů
+try:
+    # Textury pro power-upy (volitelné)
+    power_up_textury = {
+        "health": "powerup_textury/health.png",
+        "ammo": "powerup_textury/ammo.png",
+        "speed": "powerup_textury/speed.png",
+        "shield": "powerup_textury/shield.png",
+        "damage": "powerup_textury/damage.png",
+        "rapid_fire": "powerup_textury/rapid_fire.png",
+        "jump": "powerup_textury/jump.png"
+    }
+    power_up_manager = PowerUpManager(max_power_ups=5, pravdepodobnost_spawnu=0.01)
+    power_up_manager.nacti_textury(power_up_textury)
+except Exception as e:
+    print(f"Chyba při načítání power-upů: {e}")
+    # Fallback bez textur
+    power_up_manager = PowerUpManager(max_power_ups=5, pravdepodobnost_spawnu=0.01)
 
 # Stav hry
 hra_bezi = True
@@ -101,10 +126,19 @@ while status:
                 # Restart hry
                 hrac.zdravi = 100
                 hrac.zivy = True
+                hrac.docasne_efekty = {}  # Reset dočasných efektů
+                hrac.speed = hrac.original_speed  # Reset rychlosti
                 hrac.delo.munice={"standardni": 7, "velky": 2, "rychly": 10}
+                
                 hrac2.zdravi = 100
                 hrac2.zivy = True 
+                hrac2.docasne_efekty = {}  # Reset dočasných efektů
+                hrac2.speed = hrac2.original_speed  # Reset rychlosti
                 hrac2.delo.munice={"standardni": 7, "velky": 2, "rychly": 10}
+                
+                # Reset power-upů
+                power_up_manager.power_ups = []
+                
                 konec_hry = False
                 winner = None
 
@@ -114,6 +148,10 @@ while status:
         # Seznam nepřátel pro každého hráče
         nepratele_hrac1 = [hrac2]
         nepratele_hrac2 = [hrac]
+        
+        # Aktualizace power-upů
+        power_up_manager.update([hrac, hrac2], zem_mask, velikost_okna_x, velikost_okna_y)
+        power_up_manager.aktualizuj_docasne_efekty([hrac, hrac2])
         
         # Pohyb a aktualizace hráčů
         hrac.pohni_se(klavesa, zem_mask)
@@ -147,11 +185,18 @@ while status:
     screen.fill((0, 100, 240))
     screen.blit(zem, (0, 0))
     
+    # Vykreslení power-upů
+    power_up_manager.vykresli_se(screen)
+    
     # Vykreslení hráčů
     hrac.vykresli_se(screen, zem_mask)
     hrac2.vykresli_se(screen, zem_mask)
-    if konec_hry==True:
+    
+    # Vykreslení informací o vítězi
+    if konec_hry:
         win_text = font.render(f'Vítěz: {winner}', True, (255, 255, 255))
+        restart_text = font.render('Stiskni R pro restart', True, (255, 255, 255))
         screen.blit(win_text, (velikost_okna_x // 2 - 150, 50))
+        screen.blit(restart_text, (velikost_okna_x // 2 - 150, 100))
         
     pygame.display.update()
