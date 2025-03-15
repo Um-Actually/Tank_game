@@ -194,24 +194,31 @@ class PowerUpManager:
     
 
     def spawn_power_up(self, maska, velikost_okna_x, velikost_okna_y):
-        x = random.randint(50, velikost_okna_x - 50)
-        y = 0  
 
-        typ = random.choice(self.typy_power_upů)
-        textura = self.textury.get(typ)
+        max_pokusy = 5
+        for _ in range(max_pokusy):
+            x = random.randint(50, velikost_okna_x - 50)
+            y = 50  
+            typ = random.choice(self.typy_power_upů)
+            textura = self.textury.get(typ)
 
-        power_up = PowerUp(x, y, typ, trvani=random.randint(5, 15), textura=textura)
+            krok = 10 
+            while y < velikost_okna_y - 50:
+                if maska.get_at((x, y)):
+                    while y > 0 and maska.get_at((x, y-1)):
+                        y -= 1
+                    break
+                y += krok
 
-        while y < velikost_okna_y - 50:
-            if maska.get_at((x, y + 1)): 
-                break 
-            y += 1 
-        power_up.y = y - 35
-        power_up.rect.y = power_up.y
+                if y > velikost_okna_y - 200:
+                    krok = 2
 
-        self.power_ups.append(power_up)
-
-
+            if y < velikost_okna_y - 50:
+                power_up = PowerUp(x, y - 20, typ, trvani=random.randint(5, 15), textura=textura)
+                self.power_ups.append(power_up)
+                return True
+        
+        return False 
     def aktualizuj_docasne_efekty(self, hraci):
         for hrac in hraci:
             if not hasattr(hrac, 'docasne_efekty'):

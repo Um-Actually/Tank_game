@@ -1,6 +1,6 @@
 import pygame
 import math
-from delo_hrac1 import delo
+from delo_hrac import delo
 
 class Hrac():
     def __init__(self, x, y, sirka, vyska, speed, textura, doleva, doprava, nahoru, dolu, textura_delo, 

@@ -120,16 +120,19 @@ class delo():
         projektily_ke_smazani = []
         for i, projektil in enumerate(self.projektily):
             kolize = projektil.update(maska)
-            for nepritel in nepratele:
-                if projektil.zkontroluj_kolizi_s_hracem(nepritel):
-                    nepritel.prijmi_poskozeni(projektil.damage)
+ 
+            if projektil.aktivni:
+                for nepritel in nepratele:
+                    if nepritel.zivy and projektil.zkontroluj_kolizi_s_hracem(nepritel):
+                        nepritel.prijmi_poskozeni(projektil.damage)
+                        break  
+            
             if not projektil.aktivni or kolize:
                 projektily_ke_smazani.append(i)
+
         for i in sorted(projektily_ke_smazani, reverse=True):
             self.projektily.pop(i)
-    
     def vykresli_se(self, screen):
-        # Vykreslení děla
         screen.blit(self.image, self.rect)
    
     def vykresleni_naboju(self,screen):
@@ -142,6 +145,5 @@ class delo():
             screen.blit(typ_text, (self.x - 20, self.y - 40))
         else:
             screen.blit(typ_text, (self.x - 80, self.y - 40))
-                # Vykreslení projektilů
         for projektil in self.projektily:
             projektil.vykresli_se(screen)

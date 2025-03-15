@@ -51,38 +51,35 @@ class Projektil:
         
         self.rect = pygame.Rect(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)
     
-
     def update(self, maska):
-
         if self.typ == "smoke":
             self.lifetime += 1
-
             if self.lifetime >= self.max_lifetime:
                 self.aktivni = False
                 return True
         else:
-
             self.x += self.vx
             self.y += self.vy
             self.vy += self.gravitace
-            
-        self.rect.center = (self.x, self.y)
-        
-        surface = pygame.Surface((self.radius * 2, self.radius * 2), pygame.SRCALPHA)
-        pygame.draw.circle(surface, self.barva, (self.radius, self.radius), self.radius)
 
-        if self.typ != "smoke" and maska.overlap(pygame.mask.from_surface(surface), (self.rect.x, self.rect.y)):
-            self.exploduj()
-            return True
-            
-        if self.x < 0 or self.x > 1920 or self.y < 0 or self.y > 1080:
-            self.aktivni = False
-            return True
-            
+            if self.x < 0 or self.x > 1920 or self.y < 0 or self.y > 1080:
+                self.aktivni = False
+                return True
+
+            self.rect.center = (int(self.x), int(self.y))
+
+            if not hasattr(self, 'collision_surface'):
+                self.collision_surface = pygame.Surface((self.radius * 2, self.radius * 2), pygame.SRCALPHA)
+                pygame.draw.circle(self.collision_surface, self.barva, (self.radius, self.radius), self.radius)
+                self.collision_mask = pygame.mask.from_surface(self.collision_surface)
+
+            if maska.overlap(self.collision_mask, (self.rect.x, self.rect.y)):
+                self.exploduj()
+                return True
+        
         return False
     
     def exploduj(self):
-        # Zde může být kód pro efekt exploze
         self.aktivni = False
     
     def zkontroluj_kolizi_s_hracem(self, hrac):

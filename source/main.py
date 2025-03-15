@@ -3,7 +3,7 @@ import random
 import math
 from hrac import Hrac
 from power_upy import PowerUpManager
-from delo_hrac1 import delo
+from delo_hrac import delo
 hlavni_smycka=True
 velikost_okna_x = 1920
 velikost_okna_y = 1080
@@ -58,19 +58,9 @@ textura_hrac2=t_2_les
 textura_delo1=d_1_les
 textura_delo2=d_2_les
 # Načítání pozadí a masky
-zem = random.choice([zem_les,zem_poust,zem_zima])
+zem = zem_les
 zem_rect = zem.get_rect()
 zem_mask = pygame.mask.from_surface(zem)
-
-# Vytvoření hráčů 
-hrac = Hrac(velikost_okna_x // 4, 0, 120, 80, 2, textura_hrac1, 
-            left_h1, right_h1, up_h1, down_h1, textura_delo1, 
-            fire_h1, std_h1, velky_h1, rychly_h1, smoke_h1)
-
-hrac2 = Hrac(velikost_okna_x * 3 // 4, 0, 120, 80, 2, textura_hrac2, 
-             left_h2, right_h2, up_h2, down_h2, textura_delo2, 
-             fire_h2, std_h2, velky_h2, rychly_h2 ,smoke_h2)
-
 
 pygame.font.init()
 font = pygame.font.SysFont(None, 36)
@@ -106,6 +96,9 @@ hrac2_tlacitko_1=pygame.Rect((velikost_okna_x - 300, velikost_okna_y/2 - 50, 200
 hrac2_tlacitko_2=pygame.Rect((velikost_okna_x - 300, velikost_okna_y/2 + 75, 200, 100))
 hrac2_tlacitko_3=pygame.Rect((velikost_okna_x - 300, velikost_okna_y/2 + 200, 200, 100))
 
+mapa_tlacitko_1=pygame.Rect((velikost_okna_x/2-350, 50 , 200, 100))
+mapa_tlacitko_2=pygame.Rect((velikost_okna_x/2-100 , 50 , 200, 100))
+mapa_tlacitko_3=pygame.Rect((velikost_okna_x/2+150, 50 , 200, 100))
 hlavni_smycka=True
 
 while hlavni_smycka:
@@ -135,6 +128,7 @@ while hlavni_smycka:
                 if mys_nad_tlacitkem_1:
                     status=True
                     menu=False
+                    menu_skiny=False
                 elif mys_nad_tlacitkem_2:
                     menu_skiny=True
                     menu=False
@@ -159,6 +153,11 @@ while hlavni_smycka:
         hrac2_mys_nad_tlacitkem_1=hrac2_tlacitko_1.collidepoint(pozice_mys)
         hrac2_mys_nad_tlacitkem_2=hrac2_tlacitko_2.collidepoint(pozice_mys)
         hrac2_mys_nad_tlacitkem_3=hrac2_tlacitko_3.collidepoint(pozice_mys)
+
+        mapa_mys_nad_tlacitkem_1=mapa_tlacitko_1.collidepoint(pozice_mys)
+        mapa_mys_nad_tlacitkem_2=mapa_tlacitko_2.collidepoint(pozice_mys)
+        mapa_mys_nad_tlacitkem_3=mapa_tlacitko_3.collidepoint(pozice_mys)
+
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
                 menu = False
@@ -187,8 +186,22 @@ while hlavni_smycka:
                 elif hrac2_mys_nad_tlacitkem_3:
                     textura_hrac2=t_2_zima
                     textura_delo2=d_2_zima
+                elif mapa_mys_nad_tlacitkem_1:
+                    zem=zem_les
+                elif mapa_mys_nad_tlacitkem_2:
+                    zem=zem_poust
+                elif mapa_mys_nad_tlacitkem_3:
+                    zem=zem_zima
 
-        screen.fill((255, 255, 255))
+        screen.fill((0, 255, 255))
+        screen.blit(zem,(0,0))
+        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2+150, 50, 200, 100))
+        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-100 , 50 , 200, 100))
+        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-350, 50 , 200, 100))
+
+
+
+
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 - 50, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 75, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 200, 200, 100))
@@ -216,6 +229,8 @@ while hlavni_smycka:
         pygame.draw.rect(screen, (0, 255, 255), (velikost_okna_x/2 + 330, velikost_okna_y/2 -15, 320, 280))
         screen.blit(pygame.transform.scale((pygame.transform.flip(textura_delo2, True, False)), (320, 18)),(velikost_okna_x/2 + 310, velikost_okna_y/2 +92, 320, 280))
         screen.blit(pygame.transform.scale((pygame.transform.flip(textura_hrac2, True, False)), (320, 280)),(velikost_okna_x/2 + 330, velikost_okna_y/2 -15, 320, 280))
+
+
         pygame.display.flip()
 
 
@@ -227,13 +242,15 @@ while hlavni_smycka:
             left_h2, right_h2, up_h2, down_h2, textura_delo2, 
             fire_h2, std_h2, velky_h2, rychly_h2 ,smoke_h2)
 
+    zem_rect = zem.get_rect()
+    zem_mask = pygame.mask.from_surface(zem)
 
     konec_hry = False
     winner = None
     clock = pygame.time.Clock()
 
     while status:
-        clock.tick(60)
+        clock.tick(120)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -323,4 +340,5 @@ while hlavni_smycka:
             screen.blit(restart_text, (velikost_okna_x // 2 - 150, 100))
         screen.blit(zem, (0, 0))
             
-        pygame.display.update()
+        pygame.display.flip()
+    
