@@ -31,6 +31,14 @@ velky_h2 = "KP2"
 rychly_h2 = "KP3"      
 smoke_h2= "KP4"   
 
+tlacitko_on=pygame.image.load("tlacitka/on.png").convert_alpha()
+tlacitko_off=pygame.image.load("tlacitka/off.png").convert_alpha()
+tlacitko_tanky_velky=pygame.image.load("tlacitka/tlacitko_tank_velky.png").convert_alpha()
+tlacitko_tanky=pygame.image.load("tlacitka/tlacitko_tanky.png").convert_alpha()
+tlacitko_les=pygame.image.load("tlacitka/tlacitko_les.png").convert_alpha()
+tlacitko_poust=pygame.image.load("tlacitka/tlacitko_poust.png").convert_alpha()
+tlacitko_zima=pygame.image.load("tlacitka/tlacitko_zima.png").convert_alpha()
+tlacitko_maskovani=tlacitko_off
 # Načítání textur tanků
 t_1_les = pygame.image.load("tank_A_textury/Tank_A_les.png").convert_alpha()
 t_1_poust = pygame.image.load("tank_A_textury/Tank_A_poust.png").convert_alpha()
@@ -111,8 +119,6 @@ while hlavni_smycka:
     status = False
     menu_skiny=False
     menu=True
-
-
     hrac = Hrac(velikost_okna_x // 4, 0, 120, 80, 2, textura_hrac1, 
             left_h1, right_h1, up_h1, down_h1, textura_delo1, 
             fire_h1, std_h1, velky_h1, rychly_h1, smoke_h1)
@@ -120,7 +126,6 @@ while hlavni_smycka:
     hrac2 = Hrac(velikost_okna_x * 3 // 4, 0, 120, 80, 2, textura_hrac2, 
             left_h2, right_h2, up_h2, down_h2, textura_delo2, 
             fire_h2, std_h2, velky_h2, rychly_h2 ,smoke_h2)
-
     while menu:
         pozice_mys= pygame.mouse.get_pos()
         mys_nad_tlacitkem_1=tlacitko_1.collidepoint(pozice_mys)
@@ -149,7 +154,6 @@ while hlavni_smycka:
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x/2 - 100, velikost_okna_y/2 + 75, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x/2 - 100, velikost_okna_y/2 + 200, 200, 100))
         pygame.display.flip()
-
 
     while menu_skiny:
         pozice_mys= pygame.mouse.get_pos()
@@ -213,23 +217,22 @@ while hlavni_smycka:
                 elif maskovani_mys_nad_tlacitkem:
                     if maskovani==False:
                         maskovani=True
-                        print(maskovani)
+                        tlacitko_maskovani=tlacitko_on
                     else:
                         maskovani=False
-                        print(maskovani)
+                        tlacitko_maskovani=tlacitko_off
 
         screen.fill((0, 255, 255))
         screen.blit(zem,(0,0))
-        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2+150, 50, 200, 100))
-        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-100 , 50 , 200, 100))
-        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-350, 50 , 200, 100))
+        screen.blit(tlacitko_les,(velikost_okna_x/2+150, 50))
+        screen.blit(tlacitko_poust,(velikost_okna_x/2-100 , 50))
+        screen.blit(tlacitko_zima,(velikost_okna_x/2-350, 50))
 
+        screen.blit(tlacitko_maskovani,(velikost_okna_x/2-100, velikost_okna_y-200 ))
+        screen.blit(tlacitko_tanky,(velikost_okna_x - 300, velikost_okna_y/2 - 50))
+        screen.blit(tlacitko_tanky,(velikost_okna_x - 300, velikost_okna_y/2 + 75))
+        screen.blit(tlacitko_tanky,(velikost_okna_x - 300, velikost_okna_y/2 + 200))
 
-        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-100, velikost_okna_y-200 , 200, 100))
-
-        pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 - 50, 200, 100))
-        pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 75, 200, 100))
-        pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 200, 200, 100))
         screen.blit(pygame.transform.flip(d_2_les, True, False),(velikost_okna_x - 273, velikost_okna_y/2 - 15, 200, 100))
         screen.blit(pygame.transform.flip(d_2_poust, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 110, 200, 100))
         screen.blit(pygame.transform.flip(d_2_zima, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 235, 200, 100))
@@ -237,9 +240,10 @@ while hlavni_smycka:
         screen.blit(pygame.transform.flip(t_2_poust, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 80, 200, 100))
         screen.blit(pygame.transform.flip(t_2_zima, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 205, 200, 100))
         
-        pygame.draw.rect(screen, (0, 255, 0), (0 + 100, velikost_okna_y/2 - 50, 200, 100))
-        pygame.draw.rect(screen, (0, 255, 0), (0 + 100, velikost_okna_y/2 + 75, 200, 100))
-        pygame.draw.rect(screen, (0, 255, 0), (0 + 100, velikost_okna_y/2 + 200, 200, 100))
+        screen.blit(tlacitko_tanky,(100, velikost_okna_y/2 - 50, 200, 100))
+        screen.blit(tlacitko_tanky,(0 + 100, velikost_okna_y/2 + 75, 200, 100))
+        screen.blit(tlacitko_tanky,(0 + 100, velikost_okna_y/2 + 200, 200, 100))
+    
         screen.blit(d_1_les, (0 + 145, velikost_okna_y / 2 - 3))
         screen.blit(d_1_poust, (0 + 145, velikost_okna_y / 2 + 117))
         screen.blit(d_1_zima, (0 + 145, velikost_okna_y / 2 + 242))
@@ -247,11 +251,11 @@ while hlavni_smycka:
         screen.blit(t_1_poust, (0 + 145, velikost_okna_y / 2 + 90))
         screen.blit(t_1_zima, (0 + 145, velikost_okna_y / 2 + 215))
 
-        pygame.draw.rect(screen, (0, 255, 255), (velikost_okna_x/2 -650, velikost_okna_y/2 -15, 320, 280))
+        screen.blit(tlacitko_tanky_velky, (velikost_okna_x/2 -650, velikost_okna_y/2 -15))
         screen.blit(pygame.transform.scale(textura_delo1, (320, 18)),(velikost_okna_x/2 -630, velikost_okna_y/2 +92, 320, 280))
         screen.blit(pygame.transform.scale(textura_hrac1, (320, 280)),(velikost_okna_x/2 -650, velikost_okna_y/2 -12, 320, 280))
 
-        pygame.draw.rect(screen, (0, 255, 255), (velikost_okna_x/2 + 330, velikost_okna_y/2 -15, 320, 280))
+        screen.blit(tlacitko_tanky_velky, (velikost_okna_x/2 + 300, velikost_okna_y/2 -15, 350, 280))
         screen.blit(pygame.transform.scale((pygame.transform.flip(textura_delo2, True, False)), (320, 18)),(velikost_okna_x/2 + 310, velikost_okna_y/2 +92, 320, 280))
         screen.blit(pygame.transform.scale((pygame.transform.flip(textura_hrac2, True, False)), (320, 280)),(velikost_okna_x/2 + 330, velikost_okna_y/2 -15, 320, 280))
 
