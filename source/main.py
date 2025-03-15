@@ -295,6 +295,7 @@ while hlavni_smycka:
                     menu = True
                     menu_skiny=False
                     status=False
+                    power_up_manager.power_ups = []
                 if konec_hry:
                     if event.key == pygame.K_r:
                         # Restart hry
@@ -370,11 +371,12 @@ while hlavni_smycka:
             if maskovani_2==pozadi:        
                 if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_KP0]:
                     hrac2.vykresli_se(screen, zem_mask)
-                    hrac2.delo.vykresleni_naboju(screen)
+
             else:
                 hrac2.vykresli_se(screen, zem_mask)
-                hrac2.delo.vykresleni_naboju(screen)
 
+            hrac2.delo.vykresleni_naboju(screen)
+            hrac.delo.vykresleni_naboju(screen)
         if  maskovani==False:   
             hrac.vykresli_se(screen, zem_mask)
             hrac2.vykresli_se(screen, zem_mask)
