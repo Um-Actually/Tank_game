@@ -31,6 +31,10 @@ velky_h2 = "KP2"
 rychly_h2 = "KP3"      
 smoke_h2= "KP4"   
 
+exit_=pygame.image.load("tlacitka/exit.png").convert_alpha()
+start=pygame.image.load("tlacitka/start.png").convert_alpha()
+menu_button=pygame.image.load("tlacitka/menu_button.png").convert_alpha()
+menu_pozadi=pygame.image.load("tlacitka/menu_pozadi.png").convert_alpha()
 tlacitko_on=pygame.image.load("tlacitka/on.png").convert_alpha()
 tlacitko_off=pygame.image.load("tlacitka/off.png").convert_alpha()
 tlacitko_tanky_velky=pygame.image.load("tlacitka/tlacitko_tank_velky.png").convert_alpha()
@@ -149,10 +153,11 @@ while hlavni_smycka:
                     menu=False
                     hlavni_smycka = False
 
-        screen.fill((255, 255, 255))
-        pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x/2 - 100, velikost_okna_y/2 - 50, 200, 100))
-        pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x/2 - 100, velikost_okna_y/2 + 75, 200, 100))
-        pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x/2 - 100, velikost_okna_y/2 + 200, 200, 100))
+        screen.fill((0, 255, 255))
+        screen.blit(menu_pozadi,(0,0))
+        screen.blit(exit_,(velikost_okna_x/2 - 100, velikost_okna_y/2 + 200, 200, 100))
+        screen.blit(start,(velikost_okna_x/2 - 100, velikost_okna_y/2 - 50))
+        screen.blit(menu_button,(velikost_okna_x/2 - 100, velikost_okna_y/2 + 75, 200, 100))
         pygame.display.flip()
 
     while menu_skiny:
