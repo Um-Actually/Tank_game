@@ -110,12 +110,38 @@ except Exception as e:
     power_up_manager = PowerUpManager(max_power_ups=5, pravdepodobnost_spawnu=0.01)
 
 
+
+
+
+tlacitko=pygame.Rect((velikost_okna_x/2 - 100, velikost_okna_y/2 - 50, 200, 100))
+
+status = False
+menu=True
+while menu:
+
+    pozice_mys= pygame.mouse.get_pos()
+    mys_nad_tlacitkem=tlacitko.collidepoint(pozice_mys)
+    
+    for udalost in pygame.event.get():
+        if udalost.type == pygame.QUIT:
+            menu = False
+
+        elif udalost.type==pygame.MOUSEBUTTONDOWN:
+            if mys_nad_tlacitkem:
+                status=True
+                menu=False
+                
+    screen.fill((255, 255, 255))
+
+    pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x/2 - 100, velikost_okna_y/2 - 50, 200, 100))
+    
+    pygame.display.flip()
+
+
 hra_bezi = True
 konec_hry = False
 winner = None
-
 clock = pygame.time.Clock()
-status = True
 
 while status:
     clock.tick(60)
