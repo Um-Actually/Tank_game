@@ -32,22 +32,22 @@ rychly_h2 = "KP3"
 smoke_h2= "KP4"   
 
 # Načítání textur tanků
-t_1_les = pygame.image.load("tank_A_textury/Tank_A_les.png")
-t_1_poust = pygame.image.load("tank_A_textury/Tank_A_poust.png")
-t_1_zima = pygame.image.load("tank_A_textury/Tank_A_zima.png")
+t_1_les = pygame.image.load("tank_A_textury/Tank_A_les.png").convert_alpha()
+t_1_poust = pygame.image.load("tank_A_textury/Tank_A_poust.png").convert_alpha()
+t_1_zima = pygame.image.load("tank_A_textury/Tank_A_zima.png").convert_alpha()
 
-t_2_les = pygame.image.load("tank_B_textury/Tank_B_les_zrcadlove.png")
-t_2_poust = pygame.image.load("tank_B_textury/Tank_B_poust_zrcadlove.png")
-t_2_zima = pygame.image.load("tank_B_textury/Tank_B_zima_zrcadlove.png")
+t_2_les = pygame.image.load("tank_B_textury/Tank_B_les_zrcadlove.png").convert_alpha()
+t_2_poust = pygame.image.load("tank_B_textury/Tank_B_poust_zrcadlove.png").convert_alpha()
+t_2_zima = pygame.image.load("tank_B_textury/Tank_B_zima_zrcadlove.png").convert_alpha()
 
 # Načítání textur děl
-d_1_les = pygame.image.load("tank_A_textury/delo_tank_A_les.png")
-d_1_poust = pygame.image.load("tank_A_textury/delo_tank_A_poust.png")
-d_1_zima = pygame.image.load("tank_A_textury/delo_tank_A_zima.png")
+d_1_les = pygame.image.load("tank_A_textury/delo_tank_A_les.png").convert_alpha()
+d_1_poust = pygame.image.load("tank_A_textury/delo_tank_A_poust.png").convert_alpha()
+d_1_zima = pygame.image.load("tank_A_textury/delo_tank_A_zima.png").convert_alpha()
 
-d_2_les = pygame.image.load("tank_B_textury/delo_tank_B_les.png")
-d_2_poust = pygame.image.load("tank_B_textury/delo_tank_B_poust.png")
-d_2_zima = pygame.image.load("tank_B_textury/delo_tank_B_zima.png")
+d_2_les = pygame.image.load("tank_B_textury/delo_tank_B_les.png").convert_alpha()
+d_2_poust = pygame.image.load("tank_B_textury/delo_tank_B_poust.png").convert_alpha()
+d_2_zima = pygame.image.load("tank_B_textury/delo_tank_B_zima.png").convert_alpha()
 
 zem_les=pygame.image.load("./zem_textury/zem_chozeni_les.png").convert_alpha()
 zem_poust=pygame.image.load("./zem_textury/zem_chozeni_poust.png").convert_alpha()

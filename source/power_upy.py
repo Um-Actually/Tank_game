@@ -158,7 +158,7 @@ class PowerUp:
         elif self.typ == "jump":
             # Jednorázový super skok
             if hrac.na_zemi:
-                hrac.velka_y = -20
+                hrac.velka_y = -25
                 hrac.na_zemi = False
 
 class PowerUpManager:
