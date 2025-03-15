@@ -192,19 +192,30 @@ while hlavni_smycka:
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 - 50, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 75, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 200, 200, 100))
+        screen.blit(pygame.transform.flip(d_2_les, True, False),(velikost_okna_x - 273, velikost_okna_y/2 - 15, 200, 100))
+        screen.blit(pygame.transform.flip(d_2_poust, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 110, 200, 100))
+        screen.blit(pygame.transform.flip(d_2_zima, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 235, 200, 100))
         screen.blit(pygame.transform.flip(t_2_les, True, False),(velikost_okna_x - 273, velikost_okna_y/2 - 45, 200, 100))
         screen.blit(pygame.transform.flip(t_2_poust, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 80, 200, 100))
         screen.blit(pygame.transform.flip(t_2_zima, True, False),(velikost_okna_x - 273, velikost_okna_y/2 + 205, 200, 100))
-
+        
         pygame.draw.rect(screen, (0, 255, 0), (0 + 100, velikost_okna_y/2 - 50, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (0 + 100, velikost_okna_y/2 + 75, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (0 + 100, velikost_okna_y/2 + 200, 200, 100))
+        screen.blit(d_1_les, (0 + 145, velikost_okna_y / 2 - 3))
+        screen.blit(d_1_poust, (0 + 145, velikost_okna_y / 2 + 117))
+        screen.blit(d_1_zima, (0 + 145, velikost_okna_y / 2 + 242))
         screen.blit(t_1_les, (0 + 145, velikost_okna_y / 2 - 35))
         screen.blit(t_1_poust, (0 + 145, velikost_okna_y / 2 + 90))
         screen.blit(t_1_zima, (0 + 145, velikost_okna_y / 2 + 215))
 
+        pygame.draw.rect(screen, (0, 255, 255), (velikost_okna_x/2 -650, velikost_okna_y/2 -15, 320, 280))
+        screen.blit(pygame.transform.scale(textura_delo1, (320, 18)),(velikost_okna_x/2 -630, velikost_okna_y/2 +92, 320, 280))
+        screen.blit(pygame.transform.scale(textura_hrac1, (320, 280)),(velikost_okna_x/2 -650, velikost_okna_y/2 -12, 320, 280))
 
-
+        pygame.draw.rect(screen, (0, 255, 255), (velikost_okna_x/2 + 330, velikost_okna_y/2 -15, 320, 280))
+        screen.blit(pygame.transform.scale((pygame.transform.flip(textura_delo2, True, False)), (320, 18)),(velikost_okna_x/2 + 310, velikost_okna_y/2 +92, 320, 280))
+        screen.blit(pygame.transform.scale((pygame.transform.flip(textura_hrac2, True, False)), (320, 280)),(velikost_okna_x/2 + 330, velikost_okna_y/2 -15, 320, 280))
         pygame.display.flip()
 
 
