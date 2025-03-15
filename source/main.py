@@ -57,6 +57,9 @@ textura_hrac1=t_1_les
 textura_hrac2=t_2_les
 textura_delo1=d_1_les
 textura_delo2=d_2_les
+maskovani_1="les"
+maskovani_2="les"
+pozadi="les"
 # Načítání pozadí a masky
 zem = zem_les
 zem_rect = zem.get_rect()
@@ -99,12 +102,16 @@ hrac2_tlacitko_3=pygame.Rect((velikost_okna_x - 300, velikost_okna_y/2 + 200, 20
 mapa_tlacitko_1=pygame.Rect((velikost_okna_x/2-350, 50 , 200, 100))
 mapa_tlacitko_2=pygame.Rect((velikost_okna_x/2-100 , 50 , 200, 100))
 mapa_tlacitko_3=pygame.Rect((velikost_okna_x/2+150, 50 , 200, 100))
+maskovani_tlacitko=pygame.Rect((velikost_okna_x/2-100, velikost_okna_y-200 , 200, 100))
 hlavni_smycka=True
+maskovani=False
+
 
 while hlavni_smycka:
     status = False
     menu_skiny=False
     menu=True
+
 
     hrac = Hrac(velikost_okna_x // 4, 0, 120, 80, 2, textura_hrac1, 
             left_h1, right_h1, up_h1, down_h1, textura_delo1, 
@@ -158,6 +165,8 @@ while hlavni_smycka:
         mapa_mys_nad_tlacitkem_2=mapa_tlacitko_2.collidepoint(pozice_mys)
         mapa_mys_nad_tlacitkem_3=mapa_tlacitko_3.collidepoint(pozice_mys)
 
+        maskovani_mys_nad_tlacitkem=maskovani_tlacitko.collidepoint(pozice_mys)
+
         for udalost in pygame.event.get():
             if udalost.type == pygame.QUIT:
                 menu = False
@@ -171,27 +180,43 @@ while hlavni_smycka:
                 if hrac1_mys_nad_tlacitkem_1:
                     textura_hrac1=t_1_les
                     textura_delo1=d_1_les
+                    maskovani_1="les"
                 elif hrac1_mys_nad_tlacitkem_2:
                     textura_hrac1=t_1_poust
                     textura_delo1=d_1_poust
+                    maskovani_1="poust"
                 elif hrac1_mys_nad_tlacitkem_3:
                     textura_hrac1=t_1_zima
                     textura_delo1=d_1_zima
+                    maskovani_1="zima"
                 elif hrac2_mys_nad_tlacitkem_1:
                     textura_hrac2=t_2_les
                     textura_delo2=d_2_les
+                    maskovani_2="les"
                 elif hrac2_mys_nad_tlacitkem_2:
                     textura_hrac2=t_2_poust
                     textura_delo2=d_2_poust
+                    maskovani_2="poust"
                 elif hrac2_mys_nad_tlacitkem_3:
                     textura_hrac2=t_2_zima
                     textura_delo2=d_2_zima
+                    maskovani_2="zima"
                 elif mapa_mys_nad_tlacitkem_1:
                     zem=zem_les
+                    pozadi="les"
                 elif mapa_mys_nad_tlacitkem_2:
                     zem=zem_poust
+                    pozadi="poust"
                 elif mapa_mys_nad_tlacitkem_3:
                     zem=zem_zima
+                    pozadi="zima"
+                elif maskovani_mys_nad_tlacitkem:
+                    if maskovani==False:
+                        maskovani=True
+                        print(maskovani)
+                    else:
+                        maskovani=False
+                        print(maskovani)
 
         screen.fill((0, 255, 255))
         screen.blit(zem,(0,0))
@@ -200,7 +225,7 @@ while hlavni_smycka:
         pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-350, 50 , 200, 100))
 
 
-
+        pygame.draw.rect(screen, (0, 0, 255), (velikost_okna_x/2-100, velikost_okna_y-200 , 200, 100))
 
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 - 50, 200, 100))
         pygame.draw.rect(screen, (0, 255, 0), (velikost_okna_x - 300, velikost_okna_y/2 + 75, 200, 100))
@@ -325,13 +350,27 @@ while hlavni_smycka:
         
         # Vykreslení power-upů
         power_up_manager.vykresli_se(screen)
-        
-        # Vykreslení hráčů
-        hrac.vykresli_se(screen, zem_mask) 
-        hrac2.vykresli_se(screen, zem_mask)
+        if maskovani:
+            if maskovani_1==pozadi:
+                if pygame.key.get_pressed()[pygame.K_a] or pygame.key.get_pressed()[pygame.K_s] or pygame.key.get_pressed()[pygame.K_d] or pygame.key.get_pressed()[pygame.K_w] or pygame.key.get_pressed()[pygame.K_SPACE]:
+                    hrac.vykresli_se(screen, zem_mask)
+                    hrac.delo.vykresleni_naboju(screen)
+            else:
+                hrac.vykresli_se(screen, zem_mask)
+                hrac.delo.vykresleni_naboju(screen)
+            if maskovani_2==pozadi:        
+                if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_UP] or pygame.key.get_pressed()[pygame.K_KP0]:
+                    hrac2.vykresli_se(screen, zem_mask)
+                    hrac2.delo.vykresleni_naboju(screen)
+            else:
+                hrac2.vykresli_se(screen, zem_mask)
+                hrac2.delo.vykresleni_naboju(screen)
 
-        hrac.delo.vykresleni_naboju(screen)
-        hrac2.delo.vykresleni_naboju(screen)
+        if  maskovani==False:   
+            hrac.vykresli_se(screen, zem_mask)
+            hrac2.vykresli_se(screen, zem_mask)
+            hrac.delo.vykresleni_naboju(screen)
+            hrac2.delo.vykresleni_naboju(screen)
         # Vykreslení informací o vítězi
         if konec_hry:
             win_text = font.render(f'Vítěz: {winner}', True, (255, 255, 255))
