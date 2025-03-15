@@ -156,11 +156,11 @@ class PowerUp:
             hrac.delo.max_cooldown = hrac.docasne_efekty["rapid_fire"]["nova_hodnota"]
         
         elif self.typ == "jump":
-            # Jednorázový super skok
             if hrac.na_zemi:
                 hrac.velka_y = -25
-                hrac.na_zemi = False
-
+            else:
+                hrac.velka_y = -50
+            hrac.na_zemi = False
 class PowerUpManager:
     def __init__(self, max_power_ups=5, pravdepodobnost_spawnu=0.005, textury=None):
         self.power_ups = []
